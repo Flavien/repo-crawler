@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace RepoCrawler
 {
     public class LibraryManager
     {
+        private static readonly string addonsManifest = "addons.xml";
+
         private readonly string repositoryDirectory;
         private readonly string addonDirectory;
 
@@ -82,7 +82,7 @@ namespace RepoCrawler
 
         private async Task<Dictionary<string, Addon>> GetCurrentAddons()
         {
-            string filePath = Path.Combine(addonDirectory, "addons.xml");
+            string filePath = Path.Combine(addonDirectory, addonsManifest);
 
             if (!File.Exists(filePath))
                 return new Dictionary<string, Addon>(0);
@@ -115,7 +115,7 @@ namespace RepoCrawler
                     .OrderBy(addon => addon.Id, StringComparer.OrdinalIgnoreCase)
                     .Select(addon => addon.XmlDefinition)));
 
-            using (FileStream addonsFile = File.OpenWrite(Path.Combine(addonDirectory, "addons.xml")))
+            using (FileStream addonsFile = File.OpenWrite(Path.Combine(addonDirectory, addonsManifest)))
             using (TextWriter writer = new StreamWriter(addonsFile))
             {
                 await writer.WriteAsync(xml.ToString());
