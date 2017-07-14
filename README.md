@@ -7,11 +7,12 @@ RepoCrawler will also generate the ``addons.xml`` file.
 ## Usage
 
 1. [Install .NET Core](https://www.microsoft.com/net/core).
-2. Download the code:
+2. Download the code and restore the NuGet packages:
 
 ```
-$ git pull https://github.com/flavien/repo-crawler
-$ cd repo-crawler/Repocrawler
+$ git clone https://github.com/Flavien/repo-crawler.git
+$ cd repo-crawler/RepoCrawler
+$ dotnet restore
 ```
 3. Place the repository ZIP files inside the ```repositories``` directory:
 ```
@@ -19,11 +20,8 @@ $ mkdir repositories
 ```
 4. Run RepoCrawler:
 ```
-$ dotnet
+$ dotnet run
 ```
-
-
-
 
 ## License
 

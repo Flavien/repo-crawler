@@ -22,6 +22,9 @@ namespace RepoCrawler
 
         public async Task Start()
         {
+            Directory.CreateDirectory(repositoryDirectory);
+            Directory.CreateDirectory(addonDirectory);
+
             Dictionary<string, Addon> currentAddons = await GetCurrentAddons();
 
             foreach (string repositoryFileName in Directory.EnumerateFiles(this.repositoryDirectory))
@@ -55,7 +58,10 @@ namespace RepoCrawler
                 Console.WriteLine();
             }
 
-            await WriteRepository(currentAddons.Values);
+            if (currentAddons.Count == 0)
+                Console.WriteLine($"No repository file found in the {repositoryDirectory} directory");
+            else
+                await WriteRepository(currentAddons.Values);
         }
 
         private bool IsNew(Addon addon, IReadOnlyDictionary<string, Addon> currentAddons)
